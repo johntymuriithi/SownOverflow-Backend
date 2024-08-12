@@ -87,6 +87,9 @@ $config = [
             'rules' => [
                 'POST user/signup' => 'user/signup',
                 'POST user/login' => 'user/login',
+                'POST add/category' => 'categories/categoryadd',
+                'POST post/question' => 'questions/questionpost',
+                'POST post/answer' => 'answers/answerpost',
                 'GET users/total' => 'user/userstotal',
 
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

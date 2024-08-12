@@ -22,38 +22,38 @@ class BaseController extends ActiveController
             ],
         ];
         //        // JWT Authentication (placed after access control) // incase it fails,,please login 401
-//        $behaviors['authenticator'] = [
-//            'class' => HttpBearerAuth::class,
-//            'except' => ['login', 'signup'], // Actions that don't require authentication
-//        ];
-//        $behaviors['access'] = [
-//            'class' => AccessControl::class,
-//            'rules' => [
-//                [
-//                    'allow' => true,
-//                    'actions' => ['login', 'signup'],
-//                    'roles' => ['?'], // Allow guests (unauthenticated users) // in short in mean users
-//                ],
-//                [
-//                    'allow' => true,
-//                    'actions' => [],
-//                    'roles' => ['@'], // authenticated users only // passed the bearer auth
-//                ],
-//                [
-//                    'allow' => true,
-//                    'actions' => [],
-//                    'roles' => ['admin'], // Require admin role
-//                ],
-//                [
-//                    'allow' => true,
-//                    'actions' => [],
-//                    'roles' => ['host'], // Require user role
-//                ],
-//            ],
-//            'denyCallback' => function ($rule, $action) {
-//                throw new \yii\web\ForbiddenHttpException('Sorry,You are not Allowed to Access This ACTION.');
-//            },
-//        ];
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::class,
+            'except' => ['login', 'signup'], // Actions that don't require authentication
+        ];
+        $behaviors['access'] = [
+            'class' => AccessControl::class,
+            'rules' => [
+                [
+                    'allow' => true,
+                    'actions' => ['login', 'signup'],
+                    'roles' => ['?'], // Allow guests (unauthenticated users) // in short in mean users
+                ],
+                [
+                    'allow' => true,
+                    'actions' => ['questionpost', 'answerpost', 'categoryadd'],
+                    'roles' => ['@'], // authenticated users only // passed the bearer auth
+                ],
+                [
+                    'allow' => true,
+                    'actions' => [],
+                    'roles' => [], // Require admin role
+                ],
+                [
+                    'allow' => true,
+                    'actions' => [],
+                    'roles' => [], // Require user role
+                ],
+            ],
+            'denyCallback' => function ($rule, $action) {
+                throw new \yii\web\ForbiddenHttpException('Sorry,You are not Allowed to Access This ACTION.');
+            },
+        ];
 
         return $behaviors;
     }
