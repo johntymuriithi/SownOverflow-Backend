@@ -18,4 +18,8 @@ class Answers extends ActiveRecord
 
         ];
     }
+    public function getQuestions()
+    {
+        return $this->hasOne(Questions::class, ['a_id' => 'a_id']);
+    }
 }

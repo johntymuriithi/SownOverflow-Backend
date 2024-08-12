@@ -15,7 +15,11 @@ class Questions extends ActiveRecord
     {
         return [
             [['user_id', 'q_description', 'q_title', 'q_date', 'category_id'], 'required'],
-
         ];
+    }
+
+    public function getAnswers()
+    {
+        return $this->hasMany(Answers::class, ['q_id' => 'q_id']);
     }
 }

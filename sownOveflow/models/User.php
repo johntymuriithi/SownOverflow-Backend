@@ -70,7 +70,7 @@ class User extends ActiveRecord implements IdentityInterface
         $key = Yii::$app->params['jwtSecretKey']; // Ensure this key matches the one used to sign the token
         try {
             $decoded = JWT::decode($token, new Key($key, 'HS256')); // Decode the token
-            return static::findOne($decoded->data->sub); // Return the user identified by the token
+            return static::findOne($decoded->data->userId); // Return the user identified by the token
         } catch (\Exception $e) {
             Yii::error('Invalid token: ' . $e->getMessage());
             return null;
@@ -112,6 +112,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $key = Yii::$app->params['jwtSecretKey'];
         $payload = [
+            'iat' => time(),
+            'nbf' => time(),
             'exp' => time() + 580675565,
             'data' => [
                 'userId' => $this->id,

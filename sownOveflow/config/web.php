@@ -91,6 +91,14 @@ $config = [
                 'POST post/question' => 'questions/questionpost',
                 'POST post/answer' => 'answers/answerpost',
                 'GET users/total' => 'user/userstotal',
+                'GET show/categories' => 'categories/showcategory',
+                'GET show/questions' => 'questions/showquestions',
+                'GET show/answers' => 'answers/showanswers',
+                'GET show/questions/byCategory' => 'analysis/getquestions',
+
+                'GET show/user/answers' => 'analysis/getquestionsansweredbyuser',
+                'GET show/user/questions' => 'analysis/getquestionsbyuser',
+
 
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],

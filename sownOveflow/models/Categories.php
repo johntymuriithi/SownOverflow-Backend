@@ -15,7 +15,11 @@ class Categories extends ActiveRecord
     {
         return [
             [['category_name'], 'required'],
-
         ];
+    }
+
+    public function getQuestions()
+    {
+        return $this->hasMany(Questions::class, ['category_id' => 'category_id']);
     }
 }
