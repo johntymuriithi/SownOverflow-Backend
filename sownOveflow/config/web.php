@@ -91,6 +91,7 @@ $config = [
                 'POST post/question' => 'questions/questionpost',
                 'POST post/answer' => 'answers/answerpost',
                 'POST answer/edit' => 'answers/answeredit',
+                'POST answer/delete' => 'answers/answerdelete',
 
                 'GET users/total' => 'user/userstotal',
                 'GET show/categories' => 'categories/showcategory',

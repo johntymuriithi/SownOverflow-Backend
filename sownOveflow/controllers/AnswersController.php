@@ -59,6 +59,22 @@ class AnswersController extends BaseController
         }
     }
 
+    public function actionAnswerdelete() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $answerId = Yii::$app->request->post('id');
+
+        $answer = Answers::findOne(['a_id' => $answerId]);
+        if (!$answer) {
+            throw new NotFoundHttpException("Answer not found");
+        }
+        if ($answer->delete()) {
+            return ["status" => 200, "message" => "Answer Deleted well"];
+        } else {
+            throw new BadRequestHttpException("Failed to delete  the Answer");
+        }
+    }
+
     public function actionShowanswers()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
