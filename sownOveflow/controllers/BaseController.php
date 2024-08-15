@@ -36,7 +36,7 @@ class BaseController extends ActiveController
                 ],
                 [
                     'allow' => true,
-                    'actions' => ['questionpost', 'answerpost', 'categoryadd', 'getquestionsansweredbyuser', 'getquestionsbyuser'],
+                    'actions' => ['questionpost', 'answerpost', 'categoryadd', 'getquestionsansweredbyuser', 'getquestionsbyuser', 'questionedit', 'answeredit'],
                     'roles' => ['@'], // authenticated users only // passed the bearer auth
                 ],
                 [

@@ -90,9 +90,12 @@ $config = [
                 'POST add/category' => 'categories/categoryadd',
                 'POST post/question' => 'questions/questionpost',
                 'POST post/answer' => 'answers/answerpost',
+                'POST answer/edit' => 'answers/answeredit',
+
                 'GET users/total' => 'user/userstotal',
                 'GET show/categories' => 'categories/showcategory',
                 'GET show/questions' => 'questions/showquestions',
+                'POST question/edit' => 'questions/questionedit',
                 'GET show/answers' => 'answers/showanswers',
                 'GET show/questions/byCategory' => 'analysis/getquestions',
 

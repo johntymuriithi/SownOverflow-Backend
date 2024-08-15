@@ -8,6 +8,7 @@ use app\models\Questions;
 use app\models\User;
 use Yii;
 use yii\data\Pagination;
+use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -38,6 +39,26 @@ class QuestionsController extends BaseController
             return ['status' => 200, 'message' => 'Question Posted Successfully'];
         } else {
             return ['status' => false, 'errors' => $question->errors];
+        }
+    }
+
+    public function actionQuestionedit() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+//        $params = Yii::$app->request->bodyParams;
+//        $userId = Yii::$app->user->id;
+
+        $questionId = Yii::$app->request->post('id');
+
+        $description = Yii::$app->request->post('q_description');
+
+        $updateCommand = Yii::$app->db->createCommand()
+            ->update('questions', ['q_description' => $description], ['q_id' => $questionId])
+            ->execute();
+
+        if ($updateCommand) {
+            return ["status" => 200, "message" => "updated well"];
+        } else {
+            throw new BadRequestHttpException("Failed to edit the question");
         }
     }
 
