@@ -99,6 +99,7 @@ $config = [
                 'POST question/edit' => 'questions/questionedit',
                 'GET show/answers' => 'answers/showanswers',
                 'GET show/questions/byCategory' => 'analysis/getquestions',
+                'GET show/siteinfo' => 'analysis/siteinfo',
 
                 'GET show/user/answers' => 'analysis/getquestionsansweredbyuser',
                 'GET show/user/questions' => 'analysis/getquestionsbyuser',

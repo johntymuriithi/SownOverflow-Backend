@@ -248,6 +248,15 @@ class AnalysisController extends BaseController
             throw new NotFoundHttpException("No questions found that the user with ID $userId has answered.");
         }
     }
+
+    public function actionSiteinfo() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $users = User::find()->count();
+        $posts = Questions::find()->count();
+
+        return ["users" => $users, "questions" => $posts];
+    }
 }
 
 ?>

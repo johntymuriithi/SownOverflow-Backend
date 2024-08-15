@@ -24,14 +24,14 @@ class BaseController extends ActiveController
         //        // JWT Authentication (placed after access control) // incase it fails,,please login 401
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::class,
-            'except' => ['login', 'signup', 'showcategory', 'showanswers', 'showquestions', 'getquestions'], // Actions that don't require authentication
+            'except' => ['login', 'signup', 'showcategory', 'showanswers', 'showquestions', 'getquestions', 'siteinfo'], // Actions that don't require authentication
         ];
         $behaviors['access'] = [
             'class' => AccessControl::class,
             'rules' => [
                 [
                     'allow' => true,
-                    'actions' => ['login', 'signup', 'showcategory', 'showanswers', 'showquestions', 'getquestions'],
+                    'actions' => ['login', 'signup', 'showcategory', 'showanswers', 'showquestions', 'getquestions', 'siteinfo'],
                     'roles' => ['?'], // Allow guests (unauthenticated users) // in short in mean users
                 ],
                 [
