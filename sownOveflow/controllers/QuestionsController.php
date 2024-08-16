@@ -65,23 +65,7 @@ class QuestionsController extends BaseController
     public function actionShowquestions()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-
-        // Define the number of items per page
-        $pageSize = 5;
-
-        // Create a query to fetch questions
-        $query = Questions::find();
-
-        // Create a Pagination object and configure it
-        $pagination = new Pagination([
-            'defaultPageSize' => $pageSize,
-            'totalCount' => $query->count(),
-        ]);
-
-        // Apply pagination to the query
-        $questions = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
+        $questions = Questions::find()->with('answers')->all();
 
         if ($questions) {
             $total = [];
@@ -91,11 +75,27 @@ class QuestionsController extends BaseController
                     'id' => $question->q_id,
                     'title' => $question->q_title,
                     'content' => $question->q_description,
+                    'votes' => $question->q_votes,
                     'dateAsked' => $question->q_date,
                     'user' => [
+                        'id' => $user->id,
                         'username' => $user->username,
                         'level' => $user->level
-                    ]
+                    ],
+                    'answers' => array_map(function($answer) {
+                        $user = User::findOne(['id' => $answer->user_id]);
+                        return [
+                            'id' => $answer->a_id,
+                            'content' => $answer->a_description,
+                            'votes' => $answer->a_votes,
+                            'dateAnswered' => $answer->a_date,
+                            'user' => [
+                                'id' => $user->id,
+                                'username' => $user->username,
+                                'level' => $user->level
+                            ]
+                        ];
+                    }, $question->answers),
                 ];
 
                 $total[] = $reviewData;
@@ -104,13 +104,7 @@ class QuestionsController extends BaseController
                 "status" => 200,
                 "message" => "Questions retrieved successfully",
                 "questions" => $total,
-                "pagination" => [
-                    'totalCount' => $pagination->totalCount,
-                    'pageCount' => $pagination->pageCount,
-                    'currentPage' => $pagination->page,
-                    'pageSize' => $pagination->pageSize,
-                ],
-            ];
+                ];
         } else {
             throw new NotFoundHttpException("No Questions Found");
         }

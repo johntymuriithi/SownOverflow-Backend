@@ -86,7 +86,7 @@ class UserController extends BaseController
             if ($user && Yii::$app->security->validatePassword($params['password'], $user->password_hash)) {
                 $tokenJWTs = $user->generateJwt();
                         // give the user role her
-                return ['data' => [ 'username' => $user->username, 'email' => $user->email, 'token' => $tokenJWTs]];
+                return ['data' => [ 'username' => $user->username, 'email' => $user->email, 'id' => $user->id, 'token' => $tokenJWTs]];
             } else {
                 throw new BadRequestHttpException('Invalid password');
             }

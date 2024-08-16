@@ -22,30 +22,11 @@ class AnalysisController extends BaseController
         if (!$category) {
             throw new NotFoundHttpException("Category not found");
         }
-
-        // Pagination parameters
-        $page = Yii::$app->request->get('page', 1); // Default to page 1
-        $limit = Yii::$app->request->get('limit', 4); // Default to 4 items per page
-
-        // Validate page and limit
-        $page = max(1, (int)$page);
-        $limit = max(1, (int)$limit);
-
-        // Calculate offset
-        $offset = ($page - 1) * $limit;
-
-        // Find questions belonging to the category with pagination
-        $query = Questions::find()
+        $questions = Questions::find()
             ->where(['category_id' => $category->category_id])
-            ->with('answers') // Eager load related answers
-            ->offset($offset)
-            ->limit($limit);
-
-        $questions = $query->all();
+            ->with('answers')->all();
 
         if ($questions) {
-            $totalCount = Questions::find()->where(['category_id' => $category->category_id])->count();
-            $totalPages = ceil($totalCount / $limit);
 
             $response = [];
             foreach ($questions as $question) {
@@ -57,6 +38,7 @@ class AnalysisController extends BaseController
                     'votes' => $question->q_votes,
                     'dateAsked' => $question->q_date,
                     'user' => [
+                        'id' => $user->id,
                         'username' => $user->username,
                         'level' => $user->level
                     ],
@@ -68,6 +50,7 @@ class AnalysisController extends BaseController
                             'votes' => $answer->a_votes,
                             'dateAnswered' => $answer->a_date,
                             'user' => [
+                                'id' => $user->id,
                                 'username' => $user->username,
                                 'level' => $user->level
                             ]
@@ -80,12 +63,6 @@ class AnalysisController extends BaseController
                 "status" => 200,
                 "message" => "Questions retrieved successfully",
                 "questions" => $response,
-                "pagination" => [
-                    "currentPage" => $page,
-                    "totalPages" => $totalPages,
-                    "totalCount" => $totalCount,
-                    "pageSize" => $limit,
-                ],
             ];
         } else {
             throw new NotFoundHttpException("Questions for the category $categoryname not found");
@@ -97,30 +74,13 @@ class AnalysisController extends BaseController
         Yii::$app->response->format = Response::FORMAT_JSON;
         $userId = Yii::$app->user->id;
 
-        // Pagination parameters
-        $page = Yii::$app->request->get('page', 1); // Default to page 1
-        $limit = Yii::$app->request->get('limit', 4); // Default to 4 items per page
-
-        // Validate page and limit
-        $page = max(1, (int)$page);
-        $limit = max(1, (int)$limit);
-
-        // Calculate offset
-        $offset = ($page - 1) * $limit;
 
         // Find questions by user with pagination
-        $query = Questions::find()
+        $questions= Questions::find()
             ->where(['user_id' => $userId])
-            ->with('answers') // Eager load related answers
-            ->offset($offset)
-            ->limit($limit);
-
-        $questions = $query->all();
+            ->with('answers')->all();
 
         if ($questions) {
-            $totalCount = Questions::find()->where(['user_id' => $userId])->count();
-            $totalPages = ceil($totalCount / $limit);
-
             $response = [];
             foreach ($questions as $question) {
                 $user = User::findOne(['id' => $question->user_id]);
@@ -130,6 +90,7 @@ class AnalysisController extends BaseController
                     'content' => $question->q_description,
                     'dateAsked' => $question->q_date,
                     'user' => [
+                        'id' => $user->id,
                         'username' => $user->username,
                         'level' => $user->level
                     ],
@@ -140,6 +101,7 @@ class AnalysisController extends BaseController
                             'content' => $answer->a_description,
                             'dateAnswered' => $answer->a_date,
                             'user' => [
+                                'id' => $user->id,
                                 'username' => $user->username,
                                 'level' => $user->level
                             ]
@@ -152,12 +114,6 @@ class AnalysisController extends BaseController
                 "status" => 200,
                 "message" => "Questions retrieved successfully",
                 "questions" => $response,
-                "pagination" => [
-                    "currentPage" => $page,
-                    "totalPages" => $totalPages,
-                    "totalCount" => $totalCount,
-                    "pageSize" => $limit,
-                ],
             ];
         } else {
             throw new NotFoundHttpException("No questions found for the user with ID $userId");
@@ -168,17 +124,6 @@ class AnalysisController extends BaseController
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $userId = Yii::$app->user->id;
-
-        // Pagination parameters
-        $page = Yii::$app->request->get('page', 1); // Default to page 1
-        $limit = Yii::$app->request->get('limit', 4); // Default to 4 items per page
-
-        // Validate page and limit
-        $page = max(1, (int)$page);
-        $limit = max(1, (int)$limit);
-
-        // Calculate offset
-        $offset = ($page - 1) * $limit;
 
         // Find question IDs that the user has answered
         $questionIds = Answers::find()
@@ -192,20 +137,11 @@ class AnalysisController extends BaseController
         }
 
         // Find questions by IDs with pagination
-        $query = Questions::find()
+        $questions = Questions::find()
             ->where(['q_id' => $questionIds])
-            ->with('answers') // Eager load related answers
-            ->offset($offset)
-            ->limit($limit);
-
-        $questions = $query->all();
+            ->with('answers')->all();
 
         if ($questions) {
-            $totalCount = Questions::find()
-                ->where(['q_id' => $questionIds])
-                ->count();
-            $totalPages = ceil($totalCount / $limit);
-
             $response = [];
             foreach ($questions as $question) {
                 $user = User::findOne(['id' => $question->user_id]);
@@ -215,6 +151,7 @@ class AnalysisController extends BaseController
                     'content' => $question->q_description,
                     'dateAsked' => $question->q_date,
                     'user' => [
+                        'id' => $user->id,
                         'username' => $user->username,
                         'level' => $user->level
                     ],
@@ -225,6 +162,7 @@ class AnalysisController extends BaseController
                             'content' => $answer->a_description,
                             'dateAnswered' => $answer->a_date,
                             'user' => [
+                                'id' => $user->id,
                                 'username' => $user->username,
                                 'level' => $user->level
                             ]
@@ -237,12 +175,6 @@ class AnalysisController extends BaseController
                 "status" => 200,
                 "message" => "Questions retrieved successfully",
                 "questions" => $response,
-                "pagination" => [
-                    "currentPage" => $page,
-                    "totalPages" => $totalPages,
-                    "totalCount" => $totalCount,
-                    "pageSize" => $limit,
-                ],
             ];
         } else {
             throw new NotFoundHttpException("No questions found that the user with ID $userId has answered.");

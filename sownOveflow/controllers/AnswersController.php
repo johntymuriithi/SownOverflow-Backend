@@ -105,6 +105,7 @@ class AnswersController extends BaseController
                     'content' => $question->a_description,
                     'dateAnswered' => $question->a_date,
                     'user' => [
+                        'id' => $user->id,
                         'username' => $user->username,
                         'level' => $user->level
                     ]
