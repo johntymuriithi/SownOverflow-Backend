@@ -22,4 +22,9 @@ class Questions extends ActiveRecord
     {
         return $this->hasMany(Answers::class, ['q_id' => 'q_id']);
     }
+
+    public function getCategories()
+    {
+        return $this->hasOne(Categories::class, ['category_id' => 'category_id']);
+    }
 }

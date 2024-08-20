@@ -65,7 +65,7 @@ class QuestionsController extends BaseController
     public function actionShowquestions()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $questions = Questions::find()->with('answers')->all();
+        $questions = Questions::find()->with('answers', 'categories')->all();
 
         if ($questions) {
             $total = [];
@@ -77,6 +77,7 @@ class QuestionsController extends BaseController
                     'content' => $question->q_description,
                     'votes' => $question->q_votes,
                     'dateAsked' => $question->q_date,
+                    "category_id"  => $question->category_id,
                     'user' => [
                         'id' => $user->id,
                         'username' => $user->username,

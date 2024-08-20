@@ -24,7 +24,7 @@ class AnalysisController extends BaseController
         }
         $questions = Questions::find()
             ->where(['category_id' => $category->category_id])
-            ->with('answers')->all();
+            ->with('answers', 'categories')->all();
 
         if ($questions) {
 
@@ -37,6 +37,7 @@ class AnalysisController extends BaseController
                     'content' => $question->q_description,
                     'votes' => $question->q_votes,
                     'dateAsked' => $question->q_date,
+                    "category_id"  => $question->category_id,
                     'user' => [
                         'id' => $user->id,
                         'username' => $user->username,
@@ -78,7 +79,7 @@ class AnalysisController extends BaseController
         // Find questions by user with pagination
         $questions= Questions::find()
             ->where(['user_id' => $userId])
-            ->with('answers')->all();
+            ->with('answers', 'categories')->all();
 
         if ($questions) {
             $response = [];
@@ -89,6 +90,7 @@ class AnalysisController extends BaseController
                     'title' => $question->q_title,
                     'content' => $question->q_description,
                     'dateAsked' => $question->q_date,
+                    "category_id"  => $question->category_id,
                     'user' => [
                         'id' => $user->id,
                         'username' => $user->username,
@@ -139,7 +141,7 @@ class AnalysisController extends BaseController
         // Find questions by IDs with pagination
         $questions = Questions::find()
             ->where(['q_id' => $questionIds])
-            ->with('answers')->all();
+            ->with('answers', 'categories')->all();
 
         if ($questions) {
             $response = [];
@@ -150,6 +152,7 @@ class AnalysisController extends BaseController
                     'title' => $question->q_title,
                     'content' => $question->q_description,
                     'dateAsked' => $question->q_date,
+                    "category_id"  => $question->category_id,
                     'user' => [
                         'id' => $user->id,
                         'username' => $user->username,
