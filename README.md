@@ -1,18 +1,18 @@
 # Sown Overflow - Backend
 ### Overview
-Sown Overflow is a Q&A platform designed to help users ask questions, share knowledge, and collaborate. This README provides detailed information about the backend implementation, including setup instructions, key features, and technical details.
+Sown Overflow is a Q&A platform designed to help users ask questions, share knowledge, and collaborate. This `README` provides detailed information about the backend implementation, including setup instructions, key features, and technical details.
 
 ### Features
-* JWT Authentication: Secure user authentication using JSON Web Tokens.
-* Role-Based Access Control: Different access levels for users, including guest, authenticated user, and admin roles.
-* Category Management: Create and manage categories for organizing questions.
-* Question and Answer System: Users can post questions and answers,  and filtering by category or user.
-* User-Friendly Responses: API responses are formatted in JSON for easy integration with frontend applications.
+* `JWT Authentication: `Secure user authentication using JSON Web Tokens.
+* `Role-Based Access Control:` Different access levels for users, including guest, authenticated user, and admin roles.
+* `Category Management: `Create and manage categories for organizing questions.
+* `Question and Answer System:` Users can post questions and answers,  and filtering by category or user.
+* `User-Friendly Responses:`API responses are formatted in JSON for easy integration with frontend applications.
 #### Technologies Used
-* Framework: Yii2 (PHP)
-* Database: PostgreSQL
-* Authentication: Firebase JWT
-* Other Tools: Composer, Yii Migrations
+* `Framework: `Yii2 (PHP)
+* `Database:` PostgreSQL
+* `Authentication:` Firebase JWT
+* `Other Tools:` Composer, Yii Migrations
 ## Setup Instructions
 ### Prerequisites
 * PHP 7.4+
@@ -48,20 +48,22 @@ php yii serve
 The backend will be available at http://localhost:8080.
 ## API Endpoints
 ### Authentication
-* POST `/auth/login: ` User login.
-* POST `/auth/signup: ` User registration.
+* POST `/user/login ` User login.
+* POST `/user/signup ` User registration.
 ### Categories
-* GET `/categories:` Retrieve all categories.
-* POST `/categories:` Add a new category (Admin only).
+* GET `/show/categories:` Retrieve all categories.
+* POST `/add/categories:` Add a new category (Admin only).
 ### Questions
-* GET `/questions: `Retrieve all questions with pagination.
-* GET /questions: Retrieve all questions with pagination.
-* GET /questions: Retrieve all questions with pagination.
-* GET /questions: Retrieve all questions with pagination.
-* GET /questions: Retrieve all questions with pagination.
-* GET /questions: Retrieve all questions with pagination.
-* GET /questions: Retrieve all questions with pagination.
-* GET /questions: Retrieve all questions with pagination.
+* GET `/show/questions `Retrieve all questions with pagination.
+* POST `/post/question` Post questions
+* POST `/edit/question` Edit a question.
+* POST `/post/answer` Post an answer.
+* GET `/show/answers` Retrieve all answers.
+* POST `/answer/edit` Edit and Answer.
+* GET `/answer/delete` Delete a paticular answer.
+* GET `/show/questions/byCategory?categoryname={categoryName}` Retrieve question by category name.
+* GET `/show/user/questions` Retrive questions posted by a particular user.
+* GET `/show/user/answers` Retrive answers answered by a praticular user.
 ## Authentication
 JWT (JSON Web Token) is used for securing API endpoints. After successful login, the server returns a JWT token, which must be included in the Authorization header of subsequent requests:
 ```
